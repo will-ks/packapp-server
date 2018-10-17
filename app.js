@@ -10,7 +10,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 const items = require('./routes/items');
-const build = require('./routes/build');
+const build = require('./routes/builds');
 
 // --- Instantiations --- //
 const app = express();
@@ -40,7 +40,7 @@ app.use(
 
 // --- Routes --- //
 app.use('/items', items);
-app.use('/build', build);
+app.use('/builds', build);
 
 // --- Error Handling --- //
 app.use((req, res, next) => {
