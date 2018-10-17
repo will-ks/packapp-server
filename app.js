@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 
 const items = require('./routes/items');
+const build = require('./routes/build');
 
 // --- Instantiations --- //
 const app = express();
@@ -32,6 +33,7 @@ app.use(cookieParser());
 
 // --- Routes --- //
 app.use('/items', items);
+app.use('/build', build);
 
 // --- Error Handling --- //
 app.use((req, res, next) => {
