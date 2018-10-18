@@ -5,33 +5,35 @@ const validator = require('validator');
 const Build = require('../models/builds');
 
 router.post('/', (req, res, next) => {
+  console.log(req.body);
   if (
-    !req.body.form ||
-    !validator.isURL(req.body.form.url) ||
-    !validator.isAlphanumeric(req.body.form.url) ||
-    !validator.isBase64(req.body.form.splashScreen) ||
-    !validator.isBase64(req.body.form.launcherIcon) ||
-    !validator.isHexColor(req.body.form.primaryColor) ||
-    !validator.isHexColor(req.body.form.secondaryColor) ||
-    !validator.isBoolean(req.body.form.camera) ||
-    !validator.isBoolean(req.body.form.externalUrls) ||
-    !validator.isBoolean(req.body.form.gps) ||
-    !validator.isBoolean(req.body.form.landscape) ||
-    !validator.isBoolean(req.body.form.portrait) ||
-    !validator.isBoolean(req.body.form.progressBar) ||
-    !validator.isBoolean(req.body.form.ratingDays) ||
-    !validator.isBoolean(req.body.form.uploads) ||
-    !validator.isBoolean(req.body.form.zoom) ||
-    !validator.isInt(req.body.form.ratingDays)
+    !req.body ||
+    !validator.isAlphanumeric(req.body.appName) ||
+    !validator.isURL(req.body.url) ||
+    !validator.isAlphanumeric(req.body.splashScreen) ||
+    !validator.isAlphanumeric(req.body.launcherIcon) ||
+    !validator.isHexColor(req.body.primaryColor) ||
+    !validator.isHexColor(req.body.secondaryColor) ||
+    typeof req.body.camera !== 'boolean' ||
+    typeof req.body.camera !== 'boolean' ||
+    typeof req.body.externalUrls !== 'boolean' ||
+    typeof req.body.gps !== 'boolean' ||
+    typeof req.body.landscape !== 'boolean' ||
+    typeof req.body.portrait !== 'boolean' ||
+    typeof req.body.progressBar !== 'boolean' ||
+    typeof req.body.ratings !== 'boolean' ||
+    typeof req.body.uploads !== 'boolean' ||
+    typeof req.body.zoom !== 'boolean' ||
+    typeof req.body.ratingDays !== 'number'
   ) {
-    res.status(422).json({ code: 'incorrect parameters' });
+    return res.status(422).json({ code: 'incorrect parameters' });
   }
   const data = req.body.form;
   const build = new Build(data);
   build
     .save()
-    .then(result => {
-      res.send(result);
+    .then(() => {
+      return res.status(200);
     })
     .catch(next);
 });
