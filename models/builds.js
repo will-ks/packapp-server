@@ -3,25 +3,78 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const buildSchema = new Schema({
-  appName: String,
-  url: String,
-  splashScreen: String,
-  launcherIcon: String,
-  primaryColor: String,
-  secondaryColor: String,
-  camera: Boolean,
-  externalUrls: Boolean,
-  gps: Boolean,
-  landscape: Boolean,
-  portrait: Boolean,
-  progressBar: Boolean,
+  appName: {
+    type: String,
+    required: true,
+    maxlength: 50
+  },
+  url: {
+    type: String,
+    required: true,
+    maxlength: 2083
+  },
+  splashScreen: {
+    type: String,
+    required: true,
+    maxlength: 30
+  },
+  launcherIcon: {
+    type: String,
+    required: true,
+    maxlength: 30
+  },
+  primaryColor: {
+    type: String,
+    required: true,
+    maxlength: 9
+  },
+  secondaryColor: {
+    type: String,
+    required: true,
+    maxlength: 9
+  },
+  camera: {
+    type: Boolean,
+    required: true
+  },
+  externalUrls: {
+    type: Boolean,
+    required: true
+  },
+  gps: {
+    type: Boolean,
+    required: true
+  },
+  landscape: {
+    type: Boolean,
+    required: true
+  },
+  portrait: {
+    type: Boolean,
+    required: true
+  },
+  progressBar: {
+    type: Boolean,
+    required: true
+  },
   ratingDays: {
     type: Number,
-    default: 3
+    required: true,
+    default: 3,
+    max: 2000
   },
-  ratings: Boolean,
-  uploads: Boolean,
-  zoom: Boolean
+  ratings: {
+    type: Boolean,
+    required: true
+  },
+  uploads: {
+    type: Boolean,
+    required: true
+  },
+  zoom: {
+    type: Boolean,
+    required: true
+  }
 });
 
 const Item = mongoose.model('Build', buildSchema);
