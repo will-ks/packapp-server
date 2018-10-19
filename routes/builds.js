@@ -33,7 +33,7 @@ router.post('/', (req, res, next) => {
   build
     .save()
     .then(() => {
-      return res.status(200);
+      return res.json({});
     })
     .catch(next);
 });
