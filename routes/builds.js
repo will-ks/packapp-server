@@ -28,7 +28,7 @@ router.post('/', (req, res, next) => {
   ) {
     return res.status(422).json({ code: 'incorrect parameters' });
   }
-  const data = req.body.form;
+  const data = req.body;
   const build = new Build(data);
   build
     .save()
