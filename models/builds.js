@@ -74,6 +74,11 @@ const buildSchema = new Schema({
   zoom: {
     type: Boolean,
     required: true
+  },
+  orientation: {
+    type: String,
+    enum: ['portrait', 'landscape', 'unspecified'],
+    required: true
   }
 });
 

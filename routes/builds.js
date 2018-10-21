@@ -29,6 +29,13 @@ router.post('/', (req, res, next) => {
     return res.status(422).json({ code: 'incorrect parameters' });
   }
   const data = req.body;
+  if (data.portrait && data.landscape) {
+    data.orientation = 'unspecified';
+  } else if (data.portrait) {
+    data.orientation = 'portrait';
+  } else {
+    data.orientation = 'landscape';
+  }
   const build = new Build(data);
   build
     .save()
