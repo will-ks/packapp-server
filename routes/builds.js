@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const validator = require('validator');
+const rp = require('request-promise-native');
 
 const Build = require('../models/builds');
 const confirmSecret = require('../middlewares/confirmSecret');
@@ -54,9 +55,25 @@ router.put('/:id', isValidObjectId, (req, res, next) => {
     const data = {
       building: true
     };
-    Build.findByIdAndUpdate(req.body.id, data);
-    return res.status(200).json({ code: 'success' });
-    // kick off build server
+    Build.findByIdAndUpdate(req.params.id, data, { new: true }).then(result => {
+      const buildData = result;
+      buildData.callback = `${process.env.SERVER_URL}/builds/result/${
+        result._id
+      }`;
+      rp({
+        method: 'POST',
+        uri: process.env.BUILD_SERVER_URL,
+        body: buildData,
+        json: true
+      })
+        .then(() => {
+          return res.status(200).json({ code: 'success' });
+        })
+        .catch(err => {
+          console.log(err);
+          return res.status(520).json({ code: 'build-server-error' });
+        });
+    });
   }
 });
 
