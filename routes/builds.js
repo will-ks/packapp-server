@@ -93,4 +93,12 @@ router.put('/result/:id', confirmSecret, isValidObjectId, (req, res, next) => {
   return res.status(200).json({ code: 'success' });
 });
 
+router.get('/poll/:id', isValidObjectId, (req, res, next) => {
+  return Build.findById(req.params.id, { builtApk: 1, buildError: 1 }).then(
+    result => {
+      res.status(200).json(result);
+    }
+  );
+});
+
 module.exports = router;
