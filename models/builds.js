@@ -85,6 +85,10 @@ const buildSchema = new Schema({
   },
   buildError: {
     type: String
+  },
+  building: {
+    type: Boolean,
+    default: false
   }
 });
 

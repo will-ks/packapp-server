@@ -8,7 +8,6 @@ const confirmSecret = require('../middlewares/confirmSecret');
 const isValidObjectId = require('../middlewares/isValidObjectId');
 
 router.post('/', (req, res, next) => {
-  console.log(req.body);
   if (
     !req.body ||
     !validator.isAlphanumeric(req.body.appName) ||
@@ -55,35 +54,42 @@ router.put('/:id', isValidObjectId, (req, res, next) => {
     const data = {
       building: true
     };
-    Build.findByIdAndUpdate(req.params.id, data, { new: true }).then(result => {
-      const buildData = result;
-      buildData.callback = `${process.env.SERVER_URL}/builds/result/${
-        result._id
-      }`;
-      rp({
-        method: 'POST',
-        uri: process.env.BUILD_SERVER_URL,
-        body: buildData,
-        json: true
-      })
-        .then(() => {
-          return res.status(200).json({ code: 'success' });
+    return Build.findByIdAndUpdate(req.params.id, data, { new: true }).then(
+      result => {
+        const buildData = result.toObject();
+        buildData.callback = `${process.env.SERVER_URL}/builds/result/${
+          result._id
+        }`;
+        buildData._id = result._id.toString();
+        rp({
+          method: 'POST',
+          uri: process.env.BUILD_SERVER_URL,
+          body: buildData,
+          json: true
         })
-        .catch(err => {
-          console.log(err);
-          return res.status(520).json({ code: 'build-server-error' });
-        });
-    });
+          .then(() => {
+            return res.status(200).json({ code: 'success' });
+          })
+          .catch(err => {
+            console.log(err);
+            return res.status(520).json({ code: 'build-server-error' });
+          });
+      }
+    );
   }
 });
 
-router.put('/result/', confirmSecret, (req, res, next) => {
+router.put('/result/:id', confirmSecret, isValidObjectId, (req, res, next) => {
   console.log(req.body);
   const data = {
     builtApk: req.body.builtApk,
-    buildError: req.body.buildError
+    buildError: req.body.buildError,
+    building: false
   };
-  Build.findByIdAndUpdate(req.body.id, data);
+  Build.findByIdAndUpdate(req.params.id, data, {new: true})
+    .catch(err => {
+      console.log(err);
+    });
   return res.status(200).json({ code: 'success' });
 });
 
