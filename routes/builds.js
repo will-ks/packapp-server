@@ -40,8 +40,10 @@ router.post('/', (req, res, next) => {
   const build = new Build(data);
   build
     .save()
-    .then(() => {
-      return res.json({});
+    .then(result => {
+      return res.json({
+        id: result._id
+      });
     })
     .catch(next);
 });
