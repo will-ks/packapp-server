@@ -4,6 +4,7 @@ const validator = require('validator');
 
 const Build = require('../models/builds');
 const confirmSecret = require('../middlewares/confirmSecret');
+const isValidObjectId = require('../middlewares/isValidObjectId');
 
 router.post('/', (req, res, next) => {
   console.log(req.body);
@@ -46,6 +47,17 @@ router.post('/', (req, res, next) => {
       });
     })
     .catch(next);
+});
+
+router.put('/:id', isValidObjectId, (req, res, next) => {
+  if (req.body.building) {
+    const data = {
+      building: true
+    };
+    Build.findByIdAndUpdate(req.body.id, data);
+    return res.status(200).json({ code: 'success' });
+    // kick off build server
+  }
 });
 
 router.put('/result/', confirmSecret, (req, res, next) => {
