@@ -54,7 +54,8 @@ router.put('/result/', confirmSecret, (req, res, next) => {
     builtApk: req.body.builtApk,
     buildError: req.body.buildError
   };
-  return Build.findByIdAndUpdate(req.body.id, data);
+  Build.findByIdAndUpdate(req.body.id, data);
+  return res.status(200).json({ code: 'success' });
 });
 
 module.exports = router;
