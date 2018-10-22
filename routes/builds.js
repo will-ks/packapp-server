@@ -45,4 +45,13 @@ router.post('/', (req, res, next) => {
     .catch(next);
 });
 
+router.put('/result/', (req, res, next) => {
+  console.log(req.body);
+  const data = {
+    builtApk: req.body.builtApk,
+    buildError: req.body.buildError
+  };
+  return Build.findByIdAndUpdate(req.body.id, data);
+});
+
 module.exports = router;

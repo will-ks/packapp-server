@@ -79,6 +79,12 @@ const buildSchema = new Schema({
     type: String,
     enum: ['portrait', 'landscape', 'unspecified'],
     required: true
+  },
+  builtApk: {
+    type: String
+  },
+  buildError: {
+    type: String
   }
 });
 
