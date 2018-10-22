@@ -3,6 +3,7 @@ const router = express.Router();
 const validator = require('validator');
 
 const Build = require('../models/builds');
+const confirmSecret = require('../middlewares/confirmSecret');
 
 router.post('/', (req, res, next) => {
   console.log(req.body);
@@ -45,7 +46,7 @@ router.post('/', (req, res, next) => {
     .catch(next);
 });
 
-router.put('/result/', (req, res, next) => {
+router.put('/result/', confirmSecret, (req, res, next) => {
   console.log(req.body);
   const data = {
     builtApk: req.body.builtApk,
