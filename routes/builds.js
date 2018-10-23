@@ -52,7 +52,8 @@ router.post('/', (req, res, next) => {
 router.put('/:id', isValidObjectId, (req, res, next) => {
   if (req.body.building) {
     const data = {
-      building: true
+      building: true,
+      builtApk: null
     };
     return Build.findByIdAndUpdate(req.params.id, data, { new: true }).then(
       result => {
