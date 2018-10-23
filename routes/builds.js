@@ -13,9 +13,13 @@ router.post('/', (req, res, next) => {
   if (
     !req.body ||
     !validator.isAlphanumeric(req.body.appName) ||
+    req.body.appName.length > 50 ||
     !validator.isURL(req.body.url) ||
+    req.body.url.length > 2083 ||
     !validator.isAlphanumeric(req.body.splashScreen) ||
+    req.body.splashScreen.length > 30 ||
     !validator.isAlphanumeric(req.body.launcherIcon) ||
+    req.body.launcherIcon.length > 30 ||
     !validator.isHexColor(req.body.primaryColor) ||
     !validator.isHexColor(req.body.secondaryColor) ||
     typeof req.body.camera !== 'boolean' ||
