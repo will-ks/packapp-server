@@ -1,3 +1,4 @@
+// --- Dependencies --- //
 const express = require('express');
 const router = express.Router();
 const validator = require('validator');
@@ -7,6 +8,7 @@ const Build = require('../models/builds');
 const confirmSecret = require('../middlewares/confirmSecret');
 const isValidObjectId = require('../middlewares/isValidObjectId');
 
+// --- Routes --- //
 router.post('/', (req, res, next) => {
   if (
     !req.body ||
@@ -87,6 +89,9 @@ router.put('/result/:id', confirmSecret, isValidObjectId, (req, res, next) => {
     buildError: req.body.buildError,
     building: false
   };
+  if (data.builtApk) {
+    data.downloadUrl = getPublicURL(data.builtApk);
+  }
   Build.findByIdAndUpdate(req.params.id, data, { new: true }).catch(err => {
     console.log(err);
   });
@@ -100,5 +105,11 @@ router.get('/poll/:id', isValidObjectId, (req, res, next) => {
     }
   );
 });
+
+// --- Helper functions --- //
+
+function getPublicURL (filename) {
+  return `https://storage.googleapis.com/${bucketName}/${filename}`;
+}
 
 module.exports = router;
