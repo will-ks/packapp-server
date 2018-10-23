@@ -87,10 +87,9 @@ router.put('/result/:id', confirmSecret, isValidObjectId, (req, res, next) => {
     buildError: req.body.buildError,
     building: false
   };
-  Build.findByIdAndUpdate(req.params.id, data, {new: true})
-    .catch(err => {
-      console.log(err);
-    });
+  Build.findByIdAndUpdate(req.params.id, data, { new: true }).catch(err => {
+    console.log(err);
+  });
   return res.status(200).json({ code: 'success' });
 });
 
