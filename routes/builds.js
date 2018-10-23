@@ -111,7 +111,9 @@ router.get('/poll/:id', isValidObjectId, (req, res, next) => {
 // --- Helper functions --- //
 
 function getPublicURL (filename) {
-  return `https://storage.googleapis.com/${bucketName}/${filename}`;
+  return `https://storage.googleapis.com/${
+    process.env.BUCKET_NAME
+  }/${filename}`;
 }
 
 module.exports = router;
