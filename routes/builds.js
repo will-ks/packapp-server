@@ -55,6 +55,14 @@ router.post('/', (req, res, next) => {
     .catch(next);
 });
 
+router.get('/:id', isValidObjectId, (req, res, next) => {
+  Build.findById(req.params.id)
+    .then(result => {
+      return res.status(200).json(result);
+    })
+    .catch(next);
+});
+
 router.put('/:id', isValidObjectId, (req, res, next) => {
   if (req.body.building) {
     const data = {
