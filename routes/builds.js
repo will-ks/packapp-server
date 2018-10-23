@@ -61,28 +61,23 @@ router.put('/:id', isValidObjectId, (req, res, next) => {
       building: true,
       builtApk: null
     };
-    return Build.findByIdAndUpdate(req.params.id, data, { new: true }).then(
-      result => {
-        const buildData = result.toObject();
-        buildData.callback = `${process.env.SERVER_URL}/builds/result/${
-          result._id
-        }`;
-        buildData._id = result._id.toString();
-        rp({
-          method: 'POST',
-          uri: process.env.BUILD_SERVER_URL,
-          body: buildData,
-          json: true
+    Build.findByIdAndUpdate(req.params.id, data, { new: true }).then(result => {
+      const buildData = result.toObject();
+      buildData.callback = `${process.env.SERVER_URL}/builds/result/${
+        result._id
+      }`;
+      buildData._id = result._id.toString();
+      rp({
+        method: 'POST',
+        uri: process.env.BUILD_SERVER_URL,
+        body: buildData,
+        json: true
+      })
+        .then(() => {
+          return res.status(200).json({ code: 'success' });
         })
-          .then(() => {
-            return res.status(200).json({ code: 'success' });
-          })
-          .catch(err => {
-            console.log(err);
-            return res.status(520).json({ code: 'build-server-error' });
-          });
-      }
-    );
+        .catch(next);
+    });
   }
 });
 
@@ -103,11 +98,14 @@ router.put('/result/:id', confirmSecret, isValidObjectId, (req, res, next) => {
 });
 
 router.get('/poll/:id', isValidObjectId, (req, res, next) => {
-  return Build.findById(req.params.id, { builtApk: 1, buildError: 1 }).then(
-    result => {
-      res.status(200).json(result);
-    }
-  );
+  Build.findById(req.params.id, {
+    builtApk: 1,
+    buildError: 1
+  })
+    .then(result => {
+      return res.status(200).json(result);
+    })
+    .catch(next);
 });
 
 // --- Helper functions --- //
