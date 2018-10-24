@@ -89,7 +89,8 @@ const buildSchema = new Schema({
     type: Boolean,
     default: false
   },
-  downloadUrl: String
+  downloadUrl: String,
+  userEmail: String
 });
 
 const Item = mongoose.model('Build', buildSchema);

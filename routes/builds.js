@@ -116,6 +116,16 @@ router.get('/poll/:id', isValidObjectId, (req, res, next) => {
     .catch(next);
 });
 
+router.post('/email/:id', isValidObjectId, (req, res, next) => {
+  const data = {
+    userEmail: req.body.userEmail
+  };
+  Build.findByIdAndUpdate(req.params.id, data, { new: true }).catch(err => {
+    console.log(err);
+  });
+  return res.status(200).json({ code: 'success' });
+});
+
 // --- Helper functions --- //
 
 function getPublicURL (filename) {
