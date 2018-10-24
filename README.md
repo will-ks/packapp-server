@@ -5,7 +5,7 @@ This repo contains the PackApp web server, which is an express.js server running
 
 ## Related Projects
 
-- PackApp web server: https://github.com/dambusm/packapp-server
+- PackApp web client: https://github.com/dambusm/packapp-client
 - PackApp build server: https://github.com/dambusm/packapp-build-server
 - PackApp android WebView application: https://github.com/dambusm/packapp-android
 
