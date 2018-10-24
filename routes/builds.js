@@ -77,7 +77,7 @@ router.put('/:id', isValidObjectId, (req, res, next) => {
       buildData._id = result._id.toString();
       rp({
         method: 'POST',
-        uri: process.env.BUILD_SERVER_URL,
+        uri: `${process.env.BUILD_SERVER_URL}/builds`,
         body: buildData,
         json: true
       })
