@@ -82,6 +82,9 @@ const buildSchema = new Schema({
   builtApk: {
     type: String
   },
+  sourceZip: {
+    type: String
+  },
   buildError: {
     type: String
   },
@@ -90,6 +93,7 @@ const buildSchema = new Schema({
     default: false
   },
   downloadUrl: String,
+  sourceDownloadUrl: String,
   userEmail: String
 });
 

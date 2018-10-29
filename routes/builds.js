@@ -93,11 +93,13 @@ router.put('/result/:id', confirmSecret, isValidObjectId, (req, res, next) => {
   console.log(req.body);
   const data = {
     builtApk: req.body.builtApk,
+    sourceZip: req.body.sourceZip,
     buildError: req.body.buildError,
     building: false
   };
   if (data.builtApk) {
     data.downloadUrl = getPublicURL(data.builtApk);
+    data.sourceDownloadUrl = getPublicURL(data.sourceZip);
   }
   Build.findByIdAndUpdate(req.params.id, data, { new: true }).catch(err => {
     console.log(err);
