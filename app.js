@@ -9,7 +9,6 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cors = require('cors');
 
-const items = require('./routes/items');
 const build = require('./routes/builds');
 
 // --- Instantiations --- //
@@ -39,7 +38,6 @@ app.use(
 );
 
 // --- Routes --- //
-app.use('/items', items);
 app.use('/builds', build);
 
 // --- Error Handling --- //
