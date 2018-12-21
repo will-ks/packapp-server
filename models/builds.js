@@ -100,6 +100,6 @@ const buildSchema = new Schema(
   { timestamps: true }
 );
 
-const Item = mongoose.model('Build', buildSchema);
+const Build = mongoose.model('Build', buildSchema);
 
-module.exports = Item;
+module.exports = Build;
