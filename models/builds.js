@@ -95,7 +95,8 @@ const buildSchema = new Schema({
   downloadUrl: String,
   sourceDownloadUrl: String,
   userEmail: String
-});
+},
+{ timestamps: true });
 
 const Item = mongoose.model('Build', buildSchema);
 
